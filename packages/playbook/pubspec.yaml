@@ -1,13 +1,13 @@
 name: playbook
 description: Playbook package.
-version: 1.1.0
+version: 1.1.1+dev.atsumi
 repository: https://github.com/playbook-ui/playbook-flutter
 documentation: https://github.com/playbook-ui/playbook-flutter
 issue_tracker: https://github.com/playbook-ui/playbook-flutter/issues
 
 environment:
-  sdk: ">=3.6.0 <4.0.0"
-  flutter: ">=3.27.0"
+  sdk: ">=3.7.0 <4.0.0"
+  flutter: ">=3.29.0"
 
 dependencies:
   flutter:
