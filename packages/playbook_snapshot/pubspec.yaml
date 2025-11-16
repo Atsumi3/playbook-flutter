@@ -1,13 +1,13 @@
 name: playbook_snapshot
 description: Playbook Snapshot package.
-version: 1.0.2
+version: 1.0.3+dev.atsumi
 repository: https://github.com/playbook-ui/playbook-flutter
 documentation: https://github.com/playbook-ui/playbook-flutter
 issue_tracker: https://github.com/playbook-ui/playbook-flutter/issues
 
 environment:
-  sdk: ">=3.6.0 <4.0.0"
-  flutter: ">=3.27.0"
+  sdk: ^3.8.1
+  flutter: ^3.32.8
 
 dependencies:
   flutter:
