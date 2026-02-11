@@ -56,7 +56,8 @@ class Snapshot implements TestTool {
     final stopwatch = Stopwatch()..start();
 
     final spec = PubspecReader.read('playbook_snapshot');
-    final dirPath = snapshotDir ??
+    final dirPath =
+        snapshotDir ??
         spec?['snapshot_dir'] as String? ??
         directoryPath ??
         _snapshotDir;
@@ -70,8 +71,9 @@ class Snapshot implements TestTool {
 
       for (final story in playbook.stories) {
         for (final scenario in story.scenarios) {
-          tester
-              .printToConsole('Snapshot for ${story.title} ${scenario.title}');
+          tester.printToConsole(
+            'Snapshot for ${story.title} ${scenario.title}',
+          );
           stopwatch.reset();
 
           runApp(Container(key: UniqueKey()));

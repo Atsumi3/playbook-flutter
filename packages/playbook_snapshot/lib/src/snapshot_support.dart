@@ -51,8 +51,10 @@ class SnapshotSupport {
       );
       var resize = 0;
       while (true) {
-        final scrollables =
-            find.byType(Scrollable).evaluate().map((e) => e.widget);
+        final scrollables = find
+            .byType(Scrollable)
+            .evaluate()
+            .map((e) => e.widget);
         if (scrollables.isEmpty) break;
 
         // To obtain the ScrollPosition,
@@ -152,8 +154,10 @@ class SnapshotSupport {
     switch (scrollAxis) {
       case Axis.horizontal:
         final height = max(originSize.height, currentExtendedSize.height);
-        final width =
-            max(maxScrollExtent + originSize.width, currentExtendedSize.width);
+        final width = max(
+          maxScrollExtent + originSize.width,
+          currentExtendedSize.width,
+        );
         newExtendedSize = Size(width, height);
       case Axis.vertical:
         final height = max(

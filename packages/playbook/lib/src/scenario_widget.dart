@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:playbook/src/scenario.dart';
 
-typedef ScenarioWidgetBuilder = Widget Function(
-  BuildContext context,
-  Widget child,
-);
+typedef ScenarioWidgetBuilder =
+    Widget Function(
+      BuildContext context,
+      Widget child,
+    );
 
 class ScenarioWidget extends StatelessWidget {
   const ScenarioWidget({

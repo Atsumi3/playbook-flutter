@@ -23,8 +23,8 @@ class PlaybookBuilder implements Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        r'$lib$': [_output],
-      };
+    r'$lib$': [_output],
+  };
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
@@ -61,15 +61,16 @@ class PlaybookBuilder implements Builder {
       orderDirectives: true,
       useNullSafetySyntax: true,
     );
-    final content = DartFormatter(
-      languageVersion: DartFormatter.latestLanguageVersion,
-    ).format(
-      '''
+    final content =
+        DartFormatter(
+          languageVersion: DartFormatter.latestLanguageVersion,
+        ).format(
+          '''
 $defaultFileHeader
 
 ${storiesLibrary.accept(emitter)}
 ''',
-    );
+        );
     await buildStep.writeAsString(_outputAssetId(buildStep), content);
   }
 
@@ -82,72 +83,79 @@ ${storiesLibrary.accept(emitter)}
     final generatedScenarioCodes = storyLibraryReader
         .annotatedWith(generatedScenarioTypeChecker)
         .where((e) {
-      const w = 'Widget';
-      const bc = 'BuildContext';
+          const w = 'Widget';
+          const bc = 'BuildContext';
 
-      final element = e.element;
-      if (!element.isPublic) return false;
-      if (element is ClassElement) {
-        return (element.unnamedConstructor?.isDefaultConstructor ?? false) &&
-            element.allSupertypes.any(
-              (s) => s.getDisplayString() == w,
-            );
-      } else if (element is ExecutableElement) {
-        final parameters = element.formalParameters;
-        final firstParam = parameters.firstOrNull?.type.getDisplayString();
-        return parameters.length <= 1 &&
-            (firstParam?.contains(bc) ?? true) &&
-            element.returnType.getDisplayString() == w;
-      } else {
-        return false;
-      }
-    }).map(
-      (e) {
-        final annotation = e.annotation;
-        final element = e.element;
-        final title = annotation.read('title');
-        final titleParam = title.isString
-            ? title.stringValue
-            : element.displayName.replaceFirst(r'$', '').replaceAll('_', ' ');
-        return Code.scope((a) {
-          final layout = constantReaderToSource(annotation.read('layout'), a);
-          final builder = a(refer(element.displayName, uri));
-          final String scenarioName;
-          final String childBuilder;
-
-          if (element is ExecutableElement &&
-              element.formalParameters.isNotEmpty) {
-            scenarioName = 'Scenario.builder';
-            childBuilder = 'builder: $builder';
+          final element = e.element;
+          if (!element.isPublic) return false;
+          if (element is ClassElement) {
+            return (element.unnamedConstructor?.isDefaultConstructor ??
+                    false) &&
+                element.allSupertypes.any(
+                  (s) => s.getDisplayString() == w,
+                );
+          } else if (element is ExecutableElement) {
+            final parameters = element.formalParameters;
+            final firstParam = parameters.firstOrNull?.type.getDisplayString();
+            return parameters.length <= 1 &&
+                (firstParam?.contains(bc) ?? true) &&
+                element.returnType.getDisplayString() == w;
           } else {
-            scenarioName = 'Scenario';
-            childBuilder = 'child: $builder()';
+            return false;
           }
-          return '''
+        })
+        .map(
+          (e) {
+            final annotation = e.annotation;
+            final element = e.element;
+            final title = annotation.read('title');
+            final titleParam = title.isString
+                ? title.stringValue
+                : element.displayName
+                      .replaceFirst(r'$', '')
+                      .replaceAll('_', ' ');
+            return Code.scope((a) {
+              final layout = constantReaderToSource(
+                annotation.read('layout'),
+                a,
+              );
+              final builder = a(refer(element.displayName, uri));
+              final String scenarioName;
+              final String childBuilder;
+
+              if (element is ExecutableElement &&
+                  element.formalParameters.isNotEmpty) {
+                scenarioName = 'Scenario.builder';
+                childBuilder = 'builder: $builder';
+              } else {
+                scenarioName = 'Scenario';
+                childBuilder = 'child: $builder()';
+              }
+              return '''
 ${a(refer(scenarioName, _playbookUrl))}(
   '$titleParam',
   layout: $layout,
   $childBuilder,
 )''';
-        });
-      },
-    );
+            });
+          },
+        );
 
     final scenarioCodes = storyLibraryReader.element.topLevelFunctions
         .where((e) => e.isPublic && e.formalParameters.isEmpty)
         .expand<Code>(
-      (e) {
-        final returnTypeString = e.returnType.getDisplayString();
-        final scenarioRefer = refer(e.displayName, uri);
-        if (returnTypeString == 'Scenario') {
-          return [scenarioRefer([]).code];
-        } else if (returnTypeString == 'List<Scenario>') {
-          return [Code.scope((a) => '...${a(scenarioRefer)}()')];
-        } else {
-          return <Code>[];
-        }
-      },
-    );
+          (e) {
+            final returnTypeString = e.returnType.getDisplayString();
+            final scenarioRefer = refer(e.displayName, uri);
+            if (returnTypeString == 'Scenario') {
+              return [scenarioRefer([]).code];
+            } else if (returnTypeString == 'List<Scenario>') {
+              return [Code.scope((a) => '...${a(scenarioRefer)}()')];
+            } else {
+              return <Code>[];
+            }
+          },
+        );
     return <Code>[...generatedScenarioCodes, ...scenarioCodes];
   }
 
@@ -165,18 +173,24 @@ ${a(refer(scenarioName, _playbookUrl))}(
       (b) => b
         ..returns = storyRefer
         ..name = '_$name\$Story'
-        ..body = storyRefer.call([
-          literalString(storyTitle),
-        ], {
-          'scenarios': literalList(scenarioCodes),
-        }).code,
+        ..body = storyRefer
+            .call(
+              [
+                literalString(storyTitle),
+              ],
+              {
+                'scenarios': literalList(scenarioCodes),
+              },
+            )
+            .code,
     );
     return storyFunction;
   }
 
   Method _createStoriesGetter(List<Method> storyMethods) {
-    final bodyExpression =
-        literalList(storyMethods.map((e) => refer('${e.name}()')));
+    final bodyExpression = literalList(
+      storyMethods.map((e) => refer('${e.name}()')),
+    );
     return Method(
       (b) => b
         ..name = 'stories'

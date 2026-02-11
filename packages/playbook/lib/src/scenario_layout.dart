@@ -20,44 +20,42 @@ class ScenarioLayout {
   const ScenarioLayout.fill({
     ScenarioLayoutSizing horizontalLayout = const ScenarioLayoutFill(),
     ScenarioLayoutSizing verticalLayout = const ScenarioLayoutFill(),
-  })  : _dh = null,
-        _dv = null,
-        _h = horizontalLayout,
-        _v = verticalLayout;
+  }) : _dh = null,
+       _dv = null,
+       _h = horizontalLayout,
+       _v = verticalLayout;
 
   const ScenarioLayout.compressed({
     ScenarioLayoutSizing horizontalLayout = const ScenarioLayoutCompressed(),
     ScenarioLayoutSizing verticalLayout = const ScenarioLayoutCompressed(),
-  })  : _dh = null,
-        _dv = null,
-        _h = horizontalLayout,
-        _v = verticalLayout;
+  }) : _dh = null,
+       _dv = null,
+       _h = horizontalLayout,
+       _v = verticalLayout;
 
   const ScenarioLayout.fixed(double width, double height)
-      : _dh = width,
-        _dv = height,
-        _h = null,
-        _v = null;
+    : _dh = width,
+      _dv = height,
+      _h = null,
+      _v = null;
 
   const ScenarioLayout.fixedH(
     double width, {
     ScenarioLayoutSizing crossAxisLayout = const ScenarioLayoutCompressed(),
-  })  : _dh = width,
-        _dv = null,
-        _h = null,
-        _v = crossAxisLayout;
+  }) : _dh = width,
+       _dv = null,
+       _h = null,
+       _v = crossAxisLayout;
 
   const ScenarioLayout.fixedV(
     double height, {
     ScenarioLayoutSizing crossAxisLayout = const ScenarioLayoutCompressed(),
-  })  : _dh = null,
-        _dv = height,
-        _h = crossAxisLayout,
-        _v = null;
+  }) : _dh = null,
+       _dv = height,
+       _h = crossAxisLayout,
+       _v = null;
 
-  const ScenarioLayout.sizing(this._h, this._v)
-      : _dh = null,
-        _dv = null;
+  const ScenarioLayout.sizing(this._h, this._v) : _dh = null, _dv = null;
 
   final double? _dh;
   final double? _dv;
