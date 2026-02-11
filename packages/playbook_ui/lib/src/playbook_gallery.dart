@@ -100,10 +100,9 @@ class PlaybookGalleryState extends State<PlaybookGallery> {
                   Flexible(
                     child: Text(
                       story.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -118,22 +117,23 @@ class PlaybookGalleryState extends State<PlaybookGallery> {
                 clipBehavior: Clip.none,
                 child: Wrap(
                   spacing: 16,
-                  children: story.scenarios
-                      .map(
-                        (e) => ScenarioContainer(
-                          key: ValueKey(e),
-                          scenario: e,
-                          thumbnailScale: widget.scenarioThumbnailScale,
-                          canvasColor: widget.canvasColor,
-                          checkeredColor: widget.checkeredColor,
-                          widgetBuilder: widget.scenarioWidgetBuilder,
+                  children:
+                      story.scenarios
+                          .map(
+                            (e) => ScenarioContainer(
+                              key: ValueKey(e),
+                              scenario: e,
+                              thumbnailScale: widget.scenarioThumbnailScale,
+                              canvasColor: widget.canvasColor,
+                              checkeredColor: widget.checkeredColor,
+                              widgetBuilder: widget.scenarioWidgetBuilder,
+                            ),
+                          )
+                          .toList()
+                        ..sort(
+                          (s1, s2) =>
+                              s1.scenario.title.compareTo(s2.scenario.title),
                         ),
-                      )
-                      .toList()
-                    ..sort(
-                      (s1, s2) =>
-                          s1.scenario.title.compareTo(s2.scenario.title),
-                    ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -179,8 +179,8 @@ class PlaybookGalleryState extends State<PlaybookGallery> {
               scenarios: story.title.contains(reg)
                   ? story.scenarios
                   : story.scenarios
-                      .where((scenario) => scenario.title.contains(reg))
-                      .toList(),
+                        .where((scenario) => scenario.title.contains(reg))
+                        .toList(),
             ),
           )
           .where((story) => story.scenarios.isNotEmpty)

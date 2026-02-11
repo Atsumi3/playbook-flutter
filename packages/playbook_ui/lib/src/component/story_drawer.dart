@@ -30,10 +30,9 @@ class StoryDrawerState extends State<StoryDrawer> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: Material(
                 shape: const StadiumBorder(),
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.06),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.06),
                 clipBehavior: Clip.antiAlias,
                 child: SearchBox(
                   controller: widget.textController,
@@ -58,9 +57,7 @@ class StoryDrawerState extends State<StoryDrawer> {
                         width: double.infinity,
                         child: Text(
                           story.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                         ),

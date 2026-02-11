@@ -24,8 +24,8 @@ class SnapshotDevice {
     this.pixelRatio = 1,
     this.orientation = SnapshotDeviceOrientation.portrait,
     required this.platform,
-  })  : _size = size,
-        _safeAreaInsets = safeAreaInsets;
+  }) : _size = size,
+       _safeAreaInsets = safeAreaInsets;
 
   final String name;
   final Size _size;
