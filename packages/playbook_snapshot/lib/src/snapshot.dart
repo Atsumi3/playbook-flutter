@@ -51,12 +51,13 @@ class Snapshot implements TestTool {
   }) async {
     await tester.runAsync(() async {
       await FontBuilder.loadFonts();
-      await tester.pumpAndSettle();
     });
+    await tester.pumpAndSettle();
     final stopwatch = Stopwatch()..start();
 
     final spec = PubspecReader.read('playbook_snapshot');
-    final dirPath = snapshotDir ??
+    final dirPath =
+        snapshotDir ??
         spec?['snapshot_dir'] as String? ??
         directoryPath ??
         _snapshotDir;
@@ -70,8 +71,9 @@ class Snapshot implements TestTool {
 
       for (final story in playbook.stories) {
         for (final scenario in story.scenarios) {
-          tester
-              .printToConsole('Snapshot for ${story.title} ${scenario.title}');
+          tester.printToConsole(
+            'Snapshot for ${story.title} ${scenario.title}',
+          );
           stopwatch.reset();
 
           runApp(Container(key: UniqueKey()));
@@ -112,6 +114,7 @@ class Snapshot implements TestTool {
 
             await setUpEachTest?.call(tester);
           });
+          await tester.pumpAndSettle();
 
           await expectLater(
             find.byWidget(target),
